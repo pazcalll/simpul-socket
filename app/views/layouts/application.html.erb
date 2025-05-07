@@ -17,6 +17,8 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -24,5 +26,17 @@
 
   <body>
     <%= yield %>
+    <script>
+      $(document).ready(function() {
+        $('[data-message=true]').on('keypress', function(event){
+          console.log(event.target.value);
+          if(event.keyCode == 13 && event.target.value!= '') {
+            event.preventDefault();
+            chat.send_message(event.target.value);
+            event.target.value = '';
+          }
+        });
+      });
+    </script>
   </body>
 </html>
