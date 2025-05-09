@@ -26,17 +26,5 @@
 
   <body>
     <%= yield %>
-    <script>
-      $(document).ready(function() {
-        $('[data-message=true]').on('keypress', function(event){
-          console.log(event.target.value);
-          if(event.keyCode == 13 && event.target.value!= '') {
-            event.preventDefault();
-            chat.send_message(event.target.value);
-            event.target.value = '';
-          }
-        });
-      });
-    </script>
   </body>
 </html>

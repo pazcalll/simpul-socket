@@ -1,15 +1,38 @@
 <div style="text-align: center;">
   <h2>Chat Application</h2>
 
-  <%= form_for @message, html: { id:"messageForm", style:"background-color: red;" } do |form| %>
-    <%= form.label :body, 'Type a message' %>
-    <%= form.text_field :body, required: true, data: { message: true } %>
-  <% end %>
+  <form id="roomNameForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" data-message="true" required>
+    <label for="message">Message</label>
+    <input type="text" id="message" data-message="true" required>
+  </form>
 
   <!-- Dummy message we will be using this to create a new message -->
   <p id="dummy_message"></p>
 
   <div id="messages">
-    <%= render @messages %>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    let object = {
+      name: "",
+      message: "",
+      id: Date.now(),
+    }
+
+    function action(event, attr) {
+      if(event.keyCode != 13 && event.target.value!= '') object[attr] = $('#'+attr).val();
+      if(event.keyCode == 13 && event.target.value!= '') {
+        event.preventDefault();
+        object[attr] = $('#'+attr).val();
+        chat.send_message(object.id, object.name, object.message);
+      }
+    }
+
+    $('#name').on('keydown', (event) => action(event, 'name'));
+    $('#message').on('keydown', (event) => action(event, 'message'));
+  });
+</script>
