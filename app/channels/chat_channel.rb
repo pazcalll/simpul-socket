@@ -29,7 +29,7 @@ class ChatChannel < ApplicationCable::Channel
     sendable = {
       name: message['name'],
       id: message['id'],
-      chat: message['message']
+      message: message['message']
     }
 
     # Add the message to the specific chatroom

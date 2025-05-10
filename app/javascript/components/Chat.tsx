@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Balloon from "./Balloon";
 
-export default function Chat() {
-  let loop = [];
-  for (let i = 0; i < 100; i++) {
-    loop.push(i);
-  }
+export type TChat = {
+  id: string|number,
+  name: string,
+  message: string,
+}
+
+export default function Chat({ initialChats }: { initialChats: Array<TChat> }) {
+  const [chats, setChats] = useState<TChat[]>(initialChats);
+  useEffect(() => {
+    console.log("chats: ", chats);
+    setChats(initialChats);
+  }, [initialChats]);
   return (
     <div className="w-full h-full space-y-2 gap-2">
-      {loop.map((i) => (
-        <Balloon sender={"sender"+i} message={"text "+i} isRTL={i % 2 == 0 ? true : false} key={i} />
+      {chats.map((chat, _index) => (
+        <Balloon sender={chat.name} message={chat.message} isRTL={chat.id != localStorage.getItem('id') as string ? true : false} key={_index} />
       ))}
     </div>
   );

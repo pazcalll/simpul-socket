@@ -1,6 +1,5 @@
 import { router } from "@inertiajs/react";
 
-import cs from "./InertiaExample.module.css";
 import { useState } from "react";
 import RoomSelector from "../components/RoomSelector";
 import room from "../channels/room_channel.js";
@@ -36,13 +35,11 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
     roomSocket.send_message(roomName);
     router.visit('/'+roomName, {
       method: 'get',
-      data: {
-        name: name,
-      },
       preserveState: true,
       preserveScroll: true,
     })
-    console.log("submitted roomName: ", roomName);
+    window.localStorage.setItem('name', name)
+    window.localStorage.setItem('id', (new Date()).getTime() + '')
 	}
 
   return (

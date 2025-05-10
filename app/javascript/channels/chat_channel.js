@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-const chat = (room) => consumer.subscriptions.create(
+const chat = (room, chats, setChats) => consumer.subscriptions.create(
   { channel: "ChatChannel", room: room },
   {
     connected() {
@@ -15,17 +15,14 @@ const chat = (room) => consumer.subscriptions.create(
     received(data) {
       // Called when there's incoming data on the websocket for this channel
       console.log("Received data: ", data);
-      $('#dummy_message')
-        .clone()
-        .text(data['chat'])
-        .appendTo($('#messages'));
+      setChats([...chats, data]);
     },
 
     send_message: function(id, name, message) {
       console.log("Sending message: " + message);
-      return this.perform('send_message', { message: { id: id, name: name, room: roomName, message: message } });
+      return this.perform('send_message', { message: { id: id, name: name, room: room, message: message } });
     }
   }
 );
 
-window.chat = chat;
+export default chat;
