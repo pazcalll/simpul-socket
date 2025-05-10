@@ -1,8 +1,7 @@
-import consumer from "channels/consumer"
+import consumer from "./consumer"
 
-const roomName = "roomie";
-const chat = consumer.subscriptions.create(
-  { channel: "ChatChannel", room: roomName },
+const chat = (room) => consumer.subscriptions.create(
+  { channel: "ChatChannel", room: room },
   {
     connected() {
       // Called when the subscription is ready for use on the server

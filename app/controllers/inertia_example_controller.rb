@@ -1,8 +1,11 @@
-class HomeController < ApplicationController
+# frozen_string_literal: true
+require 'securerandom'
+
+class InertiaExampleController < ApplicationController
   def index
     chatRooms = ChatChannel::CHATROOMS.keys
-    render inertia: 'Index', props: {
-      room_names: chatRooms,
+    render inertia: 'InertiaExample', props: {
+      name: params.fetch(:name, 'Bro'),
     }
   end
 
