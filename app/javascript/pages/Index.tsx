@@ -6,6 +6,7 @@ import RoomSelector from "../components/RoomSelector";
 import room from "../channels/room_channel.js";
 import Layout from "../components/Layout.js";
 import Footer from "../components/Footer.js";
+import Header from "../components/Header.js";
 
 export default function Index({ room_names }: { room_names: Array<unknown> | null }) {
 	const maxLength = 32;
@@ -46,12 +47,11 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
 
   return (
     <Layout>
-      <div className="flex flex-col items-center">
-        <h1 className="w-full font-bold text-2xl text-center">Welcome to ChatApp!</h1>
+      <Header title="Welcome to ChatApp!">
         <small className="text-[#0000FF] text-sm">
           Please fulfil your data and select room name before further actions!
         </small>
-      </div>
+      </Header>
       <div className="flex flex-col items-center">
         <div className="block card mt-5 max-w-[28rem] w-[28rem] md:w-[40rem] md:max-w-[40rem]">
           <div className="columns-2 text-center">
