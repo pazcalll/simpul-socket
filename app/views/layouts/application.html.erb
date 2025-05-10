@@ -19,19 +19,6 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%
-=begin%>
- <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <%= vite_stylesheet_tag "application" %>
-    <%= vite_react_refresh_tag %>
-    <%= vite_client_tag %>
-    <%= vite_typescript_tag "inertia" %>
-    <%= inertia_ssr_head %>
-    <%= vite_javascript_tag 'application' %> 
-<%
-=end%>
     <%= inertia_ssr_head %>
     <%= vite_client_tag if Rails.env.development? %> <!-- Only include HMR client in development -->
     <%= vite_stylesheet_tag 'application' %>

@@ -1,6 +1,8 @@
 class ChatChannel < ApplicationCable::Channel
   CHATROOMS = Hash.new { |hash, key| hash[key] = [] }.tap do |rooms|
-    rooms['main'] = [] # Add a default room
+    100.times do |i|
+      rooms["main#{i}"] = [] # Add default rooms
+    end
   end
 
   def subscribed
