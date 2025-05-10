@@ -35,11 +35,13 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
     roomSocket.send_message(roomName);
     router.visit('/'+roomName, {
       method: 'get',
+      data: {
+        id: (new Date()).getTime(),
+        name: name,
+      },
       preserveState: true,
       preserveScroll: true,
     })
-    window.localStorage.setItem('name', name)
-    window.localStorage.setItem('id', (new Date()).getTime() + '')
 	}
 
   return (

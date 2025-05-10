@@ -2,7 +2,7 @@ import Footer from '../components/Footer'
 import Layout from '../components/Layout'
 import Chat, { TChat } from '../components/Chat'
 import Header from '../components/Header'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // @ts-ignore
 import chat from '../channels/chat_channel.js'
 
@@ -13,12 +13,12 @@ type TChatSocket = {
   send_message: (id: string, name: string, message: string) => void
 }
 
-export default function Room({room_name}: { room_name: string }) {
+export default function Room({room_name, name, id}: { room_name: string, name: string, id: string }) {
   const [chats, setChats] = useState<TChat[]>([])
   const [message, setMessage] = useState<string>("")
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
   const chatSocket = chat(room_name, chats, setChats) as TChatSocket
-  const id = window.localStorage.getItem('id') as string
-  const name = window.localStorage.getItem('name') as string
 
   if (!id || !name) {
     window.location.href = "/"
@@ -42,11 +42,37 @@ export default function Room({room_name}: { room_name: string }) {
     setMessage("")
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = window.innerHeight * chats.length;
+      }
+    }, 500)
+  }, [chats])
+
   return (
     <Layout>
-      <div className='absolute top-2 left-2 bottom-0 w-[4rem] h-[3rem]'>
+      <div className='absolute top-2 left-4 bottom-0 w-[4rem] h-[3rem]'>
         <button className='w-full h-full text-xl mx-auto top-0 bottom-0 cursor-pointer rounded-lg bg-gray-100 hover:bg-gray-300' onClick={() => window.history.back()}>
           Back
+        </button>
+      </div>
+      <div className='absolute top-2 right-4 bottom-0 w-[12rem] h-[3rem]'>
+        <button className='w-full h-full text-md text-left mx-auto top-0 bottom-0 rounded-lg'>
+          <table>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td width={10} className='text-center'>:</td>
+                <td>{name}</td>
+              </tr>
+              <tr>
+                <td>ID</td>
+                <td width={10} className='text-center'>:</td>
+                <td>{id}</td>
+              </tr>
+            </tbody>
+          </table>
         </button>
       </div>
       <Header title={"Room " + room_name}>
@@ -54,7 +80,7 @@ export default function Room({room_name}: { room_name: string }) {
           Please chat politely and respect others!
         </small>
       </Header>
-      <div className='h-screen max-h-[calc(100vh-10rem)] mt-5 mb-[100rem] overflow-y-auto mx-[1rem]'>
+      <div className='h-screen max-h-[calc(100vh-10rem)] mt-5 mb-[100rem] overflow-y-auto mx-[1rem] bg-gray-100 rounded-2xl' ref={chatContainerRef}>
         <Chat initialChats={chats} />
       </div>
       <Footer>
