@@ -1,7 +1,7 @@
 import consumer from "./consumer"
 
-const chat = (room, chats, setChats) => consumer.subscriptions.create(
-  { channel: "ChatChannel", room: room },
+const chat = (room, chats, setChats, id, name) => consumer.subscriptions.create(
+  { channel: "ChatChannel", room: room, id: id, name: name },
   {
     connected() {
       // Called when the subscription is ready for use on the server

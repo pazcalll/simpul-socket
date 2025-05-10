@@ -18,7 +18,7 @@ export default function Room({room_name, name, id}: { room_name: string, name: s
   const [message, setMessage] = useState<string>("")
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  const chatSocket = chat(room_name, chats, setChats) as TChatSocket
+  const chatSocket = chat(room_name, chats, setChats, id, name) as TChatSocket
 
   if (!id || !name) {
     window.location.href = "/"

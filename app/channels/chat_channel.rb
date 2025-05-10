@@ -1,7 +1,7 @@
 class ChatChannel < ApplicationCable::Channel
   CHATROOMS = Hash.new { |hash, key| hash[key] = [] }.tap do |rooms|
     100.times do |i|
-      rooms["main#{i}"] = [] # Add default rooms
+      rooms["Room #{i}"] = [] # Add default rooms
     end
   end
 
@@ -13,6 +13,13 @@ class ChatChannel < ApplicationCable::Channel
 
       # Stream from the specific room
       stream_from "chat_channel_#{params[:room]}"
+
+      returnable = {
+        id: 0,
+        name: '',
+        message: params[:name] + ' has joined the chat',
+      }
+      ActionCable.server.broadcast("chat_channel_#{params[:room]}", returnable)
     else
       reject
     end
