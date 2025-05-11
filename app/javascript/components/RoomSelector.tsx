@@ -1,10 +1,11 @@
 import { useState } from "react"
 
-export default function RoomSelector({ room_names, setRoom }: { room_names: Array<unknown> | null, setRoom: (room: string) => void }) {
+export default function RoomSelector({ room_names, setRoom, roomSelectionRef }: { room_names: Array<unknown> | null, setRoom: (room: string) => void, roomSelectionRef: React.RefObject<HTMLDivElement | null> }) {
     const [selectedNumber, setSelectedNumber] = useState<number>();
+    
     return <div className="flex flex-col items-center h-full w-full max-w-[32rem] md:max-w-[40rem] mx-auto">
         <h2 className="text-2xl mt-5 font-bold">Select Room: </h2>
-        <div className="mt-3 overflow-y-auto w-full space-y-1 !max-h-[calc(100vh-28rem)] rounded-lg">
+        <div className="mt-3 overflow-y-auto w-full space-y-1 !max-h-[calc(100vh-28rem)] rounded-lg" ref={roomSelectionRef}>
             {room_names && room_names.length > 0 ? (
                 room_names.map((room_name: unknown, _index: number) => (
                     <>

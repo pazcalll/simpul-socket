@@ -32,7 +32,7 @@ export default function Room({room_name, name, id}: { room_name: string, name: s
     setMessage(messageInput);
   }
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault()
     if (message.length < 1) {
       alert("Please fill in your message!");
@@ -58,22 +58,10 @@ export default function Room({room_name, name, id}: { room_name: string, name: s
         </button>
       </div>
       <div className='absolute top-2 right-4 bottom-0 w-[12rem] h-[3rem]'>
-        <button className='w-full h-full text-md text-left mx-auto top-0 bottom-0 rounded-lg'>
-          <table>
-            <tbody>
-              <tr>
-                <td>Name</td>
-                <td width={10} className='text-center'>:</td>
-                <td>{name}</td>
-              </tr>
-              <tr>
-                <td>ID</td>
-                <td width={10} className='text-center'>:</td>
-                <td>{id}</td>
-              </tr>
-            </tbody>
-          </table>
-        </button>
+        <div className='w-full h-full text-xs text-right mx-auto top-0 bottom-0 rounded-lg text-gray-300'>
+          <p>{name}</p>
+          <p>(ID) {id}</p>
+        </div>
       </div>
       <Header title={"Room " + room_name}>
         <small className="text-[#0000FF] text-sm">
@@ -85,8 +73,8 @@ export default function Room({room_name, name, id}: { room_name: string, name: s
       </div>
       <Footer>
         <div className='gap-2 w-full flex mx-auto'>
-          <input type="text" className='w-full border border-gray-300 bg-gray-100 rounded-lg focus:outline-0 focus:ring-0' value={message} onInput={(e) => useSetMessage(e.target.value)} />
-          <button className='bg-green-400 text-white w-52 py-2 cursor-pointer rounded-lg' onClick={handleSubmit}>Send</button>
+          <input type="text" className='w-full border border-gray-300 bg-gray-100 rounded-xl focus:outline-0 focus:ring-0' value={message} onInput={(e) => useSetMessage(e.target.value)} onKeyDown={(e) => {if (e.keyCode == 13) handleSubmit(e)}} />
+          <button className='bg-green-400 hover:bg-green-600 text-white w-52 py-2 cursor-pointer rounded-lg' onClick={handleSubmit}>Send</button>
         </div>
       </Footer>
     </Layout>

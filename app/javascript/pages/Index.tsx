@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import RoomSelector from "../components/RoomSelector";
 import room from "../channels/room_channel.js";
 import Layout from "../components/Layout.js";
@@ -13,8 +13,18 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
   const [roomName, setRoomName] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isTypeRoom, setIsTypeRoom] = useState<boolean>(true);
+  const roomContainerRef = useRef<HTMLDivElement>(null);
 
-  const roomSocket = room(setRoomNames);
+  const useSetRoomNames = (data: Array<string>) => {
+    setRoomNames(data);
+    setTimeout(() => {
+      if (roomContainerRef.current) {
+        roomContainerRef.current.scrollTop = window.innerHeight * (roomNames as Array<unknown>).length;
+      }
+    }, 500)
+  }
+
+  const roomSocket = room(useSetRoomNames);
 
 	const useSetRoom = (roomName: string) => {
 		if (roomName.length > maxLength) roomName = roomName.slice(0, maxLength);
@@ -90,7 +100,7 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
                   } w-[6rem] h-[6rem] text-[12pt] rounded-full text-center cursor-pointer hover:bg-gray-300`}
                   onClick={() => setIsTypeRoom(true)}
                 >
-                  Type Room
+                  Create Room
                 </button>
                 <button
                   className={`${
@@ -102,13 +112,13 @@ export default function Index({ room_names }: { room_names: Array<unknown> | nul
                 </button>
               </div>
             </div>
-            <div className="w-full flex justify-center overflow-y-auto">
-              {isTypeRoom ? "" : <RoomSelector room_names={roomNames} setRoom={setRoomName} />}
+            <div className="w-full flex justify-center overflow-y-auto max-w-[28rem] mx-auto md:max-w-full">
+              {isTypeRoom ? "" : <RoomSelector room_names={roomNames} setRoom={setRoomName} roomSelectionRef={roomContainerRef} />}
             </div>
           </div>
           <Footer>
             <button
-              className="cursor-pointer w-full text-xl bg-green-300 rounded-lg py-3 mt-5"
+              className="cursor-pointer w-full text-xl bg-green-300 rounded-lg py-3 mt-5 max-w-[28rem] md:max-w-[40rem]"
               type="button"
               onClick={handleSubmit}
             >
