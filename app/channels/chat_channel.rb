@@ -1,7 +1,7 @@
 class ChatChannel < ApplicationCable::Channel
   CHATROOMS = Hash.new { |hash, key| hash[key] = [] }.tap do |rooms|
     100.times do |i|
-      rooms["Room #{i}"] = [] # Add default rooms
+      rooms["Dummy #{i}"] = [] # Add default rooms
     end
   end
 
