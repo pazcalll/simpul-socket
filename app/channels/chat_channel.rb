@@ -7,7 +7,7 @@ class ChatChannel < ApplicationCable::Channel
 
   def subscribed
     # Ensure a room is provided
-    if params[:room].present?
+    if params[:room].present? && params[:name].present?
       # Create the room if it doesn't exist
       CHATROOMS[params[:room]] ||= []
 
@@ -30,7 +30,6 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def send_message(data)
-    puts "Received message: #{data.inspect}"
     message = data['message']
     room = message['room']
     sendable = {
